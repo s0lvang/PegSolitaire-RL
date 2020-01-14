@@ -22,58 +22,70 @@ class Diamond:
                 self.setNeighbours(node)
 
     def setNeighbours(self, node):
-        r = node.r
-        c = node.c
-        upNeighbour = self.upNeighbour(node)
-        if upNeighbour:
-            node.setNeighbour(upNeighbour)
+        neighbours = [
+            self.upNeighbour(node),
+            self.upRightNeighbour(node),
+            self.rightNeighbour(node),
+            self.downNeighbour(node),
+            self.downLeftNeighbour(node),
+            self.leftNeighbour(node),
+        ]
+        node.setNeighbours(neighbours)
         print(node)
 
     def upNeighbour(self, node):
-        if self.positionIsOnBoard(node.r - 1, node.c):
-            return self.board[node.r - 1][node.c]
+        return self.neighbour(node.r - 1, node.c)
 
-    def getNeighbours(self, node):
-        r = node.r
-        c = node.c
-        neighbours = []
-        if self.positionIsOnBoard(r - 1, c):
-            neighbours.append(self.board[r - 1][c])
-        if self.positionIsOnBoard(r - 1, c + 1):
-            neighbours.append(self.board[r - 1][c + 1])
-        if self.positionIsOnBoard(r, c + 1):
-            neighbours.append(self.board[r][c + 1])
-        if self.positionIsOnBoard(r + 1, c):
-            neighbours.append(self.board[r + 1][c])
-        if self.positionIsOnBoard(r + 1, c - 1):
-            neighbours.append(self.board[r + 1][c - 1])
-        if self.positionIsOnBoard(r, c - 1):
-            neighbours.append(self.board[r][c - 1])
-        return neighbours
+    def upRightNeighbour(self, node):
+        return self.neighbour(node.r - 1, node.c + 1)
+
+    def rightNeighbour(self, node):
+        return self.neighbour(node.r, node.c + 1)
+
+    def downNeighbour(self, node):
+        return self.neighbour(node.r + 1, node.c)
+
+    def downLeftNeighbour(self, node):
+        return self.neighbour(node.r + 1, node.c - 1)
+
+    def leftNeighbour(self, node):
+        return self.neighbour(node.r, node.c - 1)
+
+    def neighbour(self, r, c):
+        if self.positionIsOnBoard(r, c):
+            return self.board[r][c]
 
     def drawBoard(self):
         G = nx.Graph()
         labels = {}
         # flatten board
         nodes = [node for sublist in self.board for node in sublist]
-        for i in range(len(nodes)):
-            labels[nodes[i]] = i
-        G.add_nodes_from(labels.values())
+        labels = [node.getCoordinates() for node in nodes]
+        # for i in range(len(nodes)):
+        #     labels[nodes[i]] = i
+        G.add_nodes_from(labels)
         for node in nodes:
-            for neighbour in self.getNeighbours(node):
-                G.add_edge(labels[node], labels[neighbour])
+            for neighbour in node.getNeighbours():
+                G.add_edge(node.getCoordinates(), neighbour.getCoordinates())
         pos = nx.spring_layout(G, seed=89)
         emptyNodes = list(
-            map(lambda node: labels[node], filter(lambda node: node.empty, nodes))
+            map(
+                lambda node: node.getCoordinates(),
+                filter(lambda node: node.empty, nodes),
+            )
         )
         fullNodes = list(
-            map(lambda node: labels[node], filter(lambda node: not node.empty, nodes))
+            map(
+                lambda node: node.getCoordinates(),
+                filter(lambda node: not node.empty, nodes),
+            )
         )
 
         fig, ax = plt.subplots()
         nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=fullNodes, node_color="b")
         nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=emptyNodes, node_color="r")
         nx.draw_networkx_edges(G, ax=ax, pos=pos)
+        nx.draw_networkx_labels(G, ax=ax, pos=pos)
         ax.invert_yaxis()
         plt.axis("off")
         plt.show()

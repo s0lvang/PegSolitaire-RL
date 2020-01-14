@@ -9,13 +9,21 @@ class Node:
         self.empty = True
 
     def getNeighbours(self):
-        return "neighbours"
+        return self.neighbours
 
     def getNeighbour(self, direction):
         return direction
 
+    def setNeighbours(self, neighbours):
+        for neighbour in neighbours:
+            self.setNeighbour(neighbour)
+
     def setNeighbour(self, neighbour):
-        self.neighbours.add(neighbour)
+        if neighbour:
+            self.neighbours.add(neighbour)
+            return True
+        else:
+            return False
 
     def getCoordinates(self):
         return (self.r, self.c)
