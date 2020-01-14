@@ -1,7 +1,5 @@
 from node import Node
-import networkx as nx
-import numpy as np
-import matplotlib.pyplot as plt
+from drawer import Drawer
 
 
 class Diamond:
@@ -9,7 +7,6 @@ class Diamond:
 
     def __init__(self, size):
         self.board = [[Node(i, j) for j in range(size)] for i in range(size)]
-
         self.setAllNeigbours(self.board)
 
     def positionIsOnBoard(self, r, c):
@@ -55,39 +52,7 @@ class Diamond:
         if self.positionIsOnBoard(r, c):
             return self.board[r][c]
 
-    def drawBoard(self):
-        G = nx.Graph()
-        labels = {}
-        # flatten board
-        nodes = [node for sublist in self.board for node in sublist]
-        labels = [node.getCoordinates() for node in nodes]
-        G.add_nodes_from(labels)
-        for node in nodes:
-            for neighbour in node.getNeighbours():
-                G.add_edge(node.getCoordinates(), neighbour.getCoordinates())
-        pos = nx.spring_layout(G, seed=89)
-        emptyNodes = list(
-            map(
-                lambda node: node.getCoordinates(),
-                filter(lambda node: node.empty, nodes),
-            )
-        )
-        fullNodes = list(
-            map(
-                lambda node: node.getCoordinates(),
-                filter(lambda node: not node.empty, nodes),
-            )
-        )
-
-        fig, ax = plt.subplots()
-        nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=fullNodes, node_color="b")
-        nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=emptyNodes, node_color="r")
-        nx.draw_networkx_edges(G, ax=ax, pos=pos)
-        nx.draw_networkx_labels(G, ax=ax, pos=pos)
-        ax.invert_yaxis()
-        plt.axis("off")
-        plt.show()
-
 
 diamond = Diamond(4)
-print(diamond.drawBoard())
+drawer = Drawer()
+drawer.draw(diamond.board)
