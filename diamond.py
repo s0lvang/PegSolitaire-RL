@@ -1,44 +1,52 @@
-from peg_node import peg_node
-import math
+from node import Node
 
 
-class Diamond():
+class Diamond:
     board = []
 
     def __init__(self, size):
-        self.board = [[peg_node() for j in range(size)] for i in range(size)]
+        self.board = [[Node(i, j) for j in range(size)] for i in range(size)]
 
-    def isIndex(self, x, y):
-        return (0 <= x and len(self.board) >= x and
-                0 <= y and len(self.board) >= y)
+        self.setAllNeigbours(self.board)
+
+    def positionIsOnBoard(self, r, c):
+        # This needs to be generalized for boards that are triangular. The two sides are not neccesarily of equal length
+        return 0 <= r and len(self.board) >= r and 0 <= c and len(self.board) >= c
+
+    def setAllNeigbours(self, board):
+        for row in board:
+            for node in row:
+                self.setNeighbours(node)
+
+    def setNeighbours(self, node):
+        r = node.r
+        c = node.c
+        upNeighbour = self.upNeighbour(node)
+        if upNeighbour:
+            node.setNeighbour(upNeighbour)
+        print(node)
+
+    def upNeighbour(self, node):
+        if self.positionIsOnBoard(node.r - 1, node.c):
+            return self.board[node.r - 1][node.c]
+
+    # def getNeighbours(self, node):
+    #     r = node.r
+    #     c = node.c
+    #     neighbours = []
+    #     if self.isIndex(r - 1, c):
+    #         neighbours.append(self.board[r - 1][c])
+    #     if self.isIndex(r - 1, c + 1):
+    #         neighbours.append(self.board[r - 1][c + 1])
+    #     if self.isIndex(r, c + 1):
+    #         neighbours.append(self.board[r][c + 1])
+    #     if self.isIndex(r + 1, c):
+    #         neighbours.append(self.board[r + 1][c])
+    #     if self.isIndex(r + 1, c - 1):
+    #         neighbours.append(self.board[r + 1][c - 1])
+    #     if self.isIndex(r, c - 1):
+    #         neighbours.append(self.board[r][c - 1])
+    #     return neighbours
 
 
-    def getNeighbours(self, peg_node):
-        x = peg_node.x
-        y = peg_node.y
-        neighbours = []
-        if(self.isIndex(x-1, y)):
-            neighbours.append(self.board[x-1][y])
-        if(self.isIndex(x-1, y+1)):
-            neighbours.append(self.board[x-1][y+1])
-        if(self.isIndex(x, y+1)):
-            neighbours.append(self.board[x][y+1])
-        if(self.isIndex(x+1, y)):
-            neighbours.append(self.board[x+1][y])
-        if(self.isIndex(x+1, y-1)):
-            neighbours.append(self.board[x+1][y-1])
-        if(self.isIndex(x, y-1)):
-            neighbours.append(self.board[x][y-1])
-        return neighbours
-
-    def getLegalMoves(self, peg_node):
-        if(peg_node.empty):
-            return []
-        legalMoves = []
-        neighbours = list(filter(lambda x: not x.empty), self.getNeighbours())
-        for neighbour in neighbours:
-            delta_x = peg_node.x - neighbour.x
-            delta_y = peg_node.y - neighbour.y
-            adjacentX = 
-            if(isIndex(delta_x*2, delta_y*2) and board[2*delta_x][2*delta_y].empty):
-                legalMoves.append(2*delta_x, 2*delta_y)
+Diamond(4)
