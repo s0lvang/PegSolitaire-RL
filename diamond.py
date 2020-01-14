@@ -61,8 +61,6 @@ class Diamond:
         # flatten board
         nodes = [node for sublist in self.board for node in sublist]
         labels = [node.getCoordinates() for node in nodes]
-        # for i in range(len(nodes)):
-        #     labels[nodes[i]] = i
         G.add_nodes_from(labels)
         for node in nodes:
             for neighbour in node.getNeighbours():
