@@ -5,5 +5,5 @@ class peg_node():
         self.x = x
         self.y = y
 
-    def clear():
+    def clear(self):
         self.empty = True
