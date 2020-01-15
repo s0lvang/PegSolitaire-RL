@@ -1,9 +1,19 @@
+from direction import Direction
+
+
 class Node:
     def __init__(self, r, c):
         self.empty = False
         self.r = r
         self.c = c
-        self.neighbours = {*()}
+        self.neighbours = {
+            Direction.UP: None,
+            Direction.UPRIGHT: None,
+            Direction.RIGHT: None,
+            Direction.DOWN: None,
+            Direction.DOWNLEFT: None,
+            Direction.LEFT: None,
+        }
 
     def clear(self):
         self.empty = True
@@ -11,16 +21,17 @@ class Node:
     def getNeighbours(self):
         return self.neighbours
 
-    def getNeighbour(self, direction):
-        return direction
+    # def moveIsLegal(self, direction):
+    #     #is neighbor to the right empty
+    #     #is neighbor two to the right empty
 
     def setNeighbours(self, neighbours):
-        for neighbour in neighbours:
-            self.setNeighbour(neighbour)
+        for direction in neighbours:
+            self.setNeighbour(direction, neighbours[direction])
 
-    def setNeighbour(self, neighbour):
+    def setNeighbour(self, direction, neighbour):
         if neighbour:
-            self.neighbours.add(neighbour)
+            self.neighbours[direction] = neighbour
             return True
         else:
             return False
@@ -29,11 +40,11 @@ class Node:
         return (self.r, self.c)
 
     def __str__(self):
-        if len(self.neighbours) > 0:
-            neighbours_representation = [n.getCoordinates() for n in self.neighbours]
-        else:
-            neighbours_representation = "no neighbours"
-        return f"Node: (r{self.r} c{self.c}),  Empty: {self.empty}, Neighbours: {neighbours_representation}"
+        neighbours_representation = [
+            n.getCoordinates()
+            for n in filter(lambda neighbour: neighbour, self.neighbours.values())
+        ]
+        return f"Node: ({self.r}, {self.c}),  Empty: {self.empty}, Neighbours: {neighbours_representation}"
 
     def __repr__(self):
         return self.__str__()

@@ -11,8 +11,9 @@ class Drawer:
         labels = [node.getCoordinates() for node in nodes]
         G.add_nodes_from(labels)
         for node in nodes:
-            for neighbour in node.getNeighbours():
-                G.add_edge(node.getCoordinates(), neighbour.getCoordinates())
+            for neighbour in node.getNeighbours().values():
+                if neighbour:
+                    G.add_edge(node.getCoordinates(), neighbour.getCoordinates())
         pos = nx.spring_layout(G, seed=89)
         emptyNodes = list(
             map(

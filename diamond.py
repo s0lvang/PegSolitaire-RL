@@ -19,16 +19,15 @@ class Diamond:
                 self.setNeighbours(node)
 
     def setNeighbours(self, node):
-        neighbours = [
-            self.upNeighbour(node),
-            self.upRightNeighbour(node),
-            self.rightNeighbour(node),
-            self.downNeighbour(node),
-            self.downLeftNeighbour(node),
-            self.leftNeighbour(node),
-        ]
+        neighbours = {
+            "UP": self.upNeighbour(node),
+            "UPRIGHT": self.upRightNeighbour(node),
+            "RIGHT": self.rightNeighbour(node),
+            "DOWN": self.downNeighbour(node),
+            "DOWNLEFT": self.downLeftNeighbour(node),
+            "LEFT": self.leftNeighbour(node),
+        }
         node.setNeighbours(neighbours)
-        print(node)
 
     def upNeighbour(self, node):
         return self.neighbour(node.r - 1, node.c)
