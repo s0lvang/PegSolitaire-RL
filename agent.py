@@ -1,6 +1,7 @@
 from diamond import Diamond
 from actor import Actor
 from critic import Critic
+from game import Game
 
 
 class Agent():
