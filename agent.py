@@ -13,7 +13,7 @@ class Agent():
     def runEpisodes(self, numberOfEpisodes):
         for _ in range numberOfEpisodes:
             enviroment = Game() # new game ish don't know the interface excactly
-            state = enviroment.getState() # the board represented in a bitstring
+            state = enviroment.getState() # the board represented in a bitstring maybe initalize as None
             action = None # No action should be done initially.
             SAPpairs = []
             while enviroment.endState == False:
@@ -22,7 +22,7 @@ class Agent():
                 newAction = self.actor.getAction(newState, legalActions) # The article about reinforcement learning, just states that the actor chooses an action, but i think it should know which actions are legal. 
                 self.actor.updateEligibility(newState, newAction) # This should update the eligibility of the SAP to 1, but that will be handled in the function
                 TDError = self.critic.getTDError(state, newState, reinforcement)
-                self.critic.updateEligibility(newState) # Should be updated to 1
+                self.critic.updateEligibility(newState, isCurrentState=True) # Should be updated to 1
                 SAPpairs.append((state, action))
                 
                 for SAP in SAPpairs:
@@ -32,8 +32,3 @@ class Agent():
                     self.actor.updatePolicy(s, a, TDError) # update the entry for the sap in the actor
                     self.actor.updateEligibility(s,a) # update the eligibility y * gamma * e(s,a)
                 state, action = newState, newAction
-            
-
-
-                
-                
