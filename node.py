@@ -21,9 +21,21 @@ class Node:
     def getNeighbours(self):
         return self.neighbours
 
-    # def moveIsLegal(self, direction):
-    #     #is neighbor to the right empty
-    #     #is neighbor two to the right empty
+    def moveIsLegal(self, direction):
+        direct_neighbour = self.neighbours[direction]
+        if direct_neighbour and not direct_neighbour.empty:
+            jump_target = direct_neighbour.neighbours[direction]
+            if jump_target and jump_target.empty:
+                return True
+        return False
+
+    def legalMoves(self):
+        return [
+            direction
+            for direction in filter(
+                lambda direction: self.moveIsLegal(direction), self.neighbours.keys()
+            )
+        ]
 
     def setNeighbours(self, neighbours):
         for direction in neighbours:
