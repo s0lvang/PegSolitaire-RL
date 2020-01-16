@@ -1,3 +1,5 @@
+import random
+
 class Actor:
     def __init__(
         self,
@@ -27,11 +29,22 @@ class Actor:
                 * self.eligibilityMap[state, action]
             )
 
-    def chooseAction():
-        raise NotImplementedError
+    def chooseAction(self, state):
+        probability = random.randint(0,100)/100
+        self.epsilon = self.epsilon * self.epsilonDecayRate
+        if epsilon > probability:
+            #choose random
+            raise NotImplementedError
+        else:
+            #choose best
+            raise NotImplementedError
+
+        return 0 
 
     def updatePolicy(state, action, TDerror):
         self.policy[state, action] = (
             self.policy[state, action]
             + self.learningRate * TDerror * eligibilityMap[state, action]
         )
+
+#Actor(0,0,0,0,0).chooseAction()

@@ -44,7 +44,5 @@ class Drawer:
                     300 + i * -30 + j * 30,
                     30 * i + 30 * j,
                 ]
-        for node in fullNodes:
-            print(pos[node])
         return pos
 
