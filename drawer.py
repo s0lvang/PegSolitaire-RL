@@ -13,7 +13,6 @@ class Drawer:
         for node in nodes:
             for neighbour in node.getNeighbours():
                 G.add_edge(node.getCoordinates(), neighbour.getCoordinates())
-        pos = nx.spring_layout(G, seed=89)
         emptyNodes = list(
             map(
                 lambda node: node.getCoordinates(),
@@ -27,6 +26,7 @@ class Drawer:
             )
         )
 
+        pos = self.generate_pos(board, fullNodes)
         fig, ax = plt.subplots()
         nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=fullNodes, node_color="b")
         nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=emptyNodes, node_color="r")
@@ -35,4 +35,16 @@ class Drawer:
         ax.invert_yaxis()
         plt.axis("off")
         plt.show()
+
+    def generate_pos(self, board, fullNodes):
+        pos = {}
+        for i in range(len(board)):
+            for j in range(len(board)):
+                pos[board[i][j].getCoordinates()] = [
+                    300 + i * -30 + j * 30,
+                    30 * i + 30 * j,
+                ]
+        for node in fullNodes:
+            print(pos[node])
+        return pos
 
