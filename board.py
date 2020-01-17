@@ -27,9 +27,10 @@ class Board:
 
     def allLegalMoves(self):
         legalMoves = []
-        for row in board:
+        for row in self.board:
             for node in row:
-                legalMoves.append(node.legalMoves())
+                for legalMove in node.legalMoves():
+                    legalMoves.append(legalMove)
         return legalMoves
 
     def setAllNeigbours(self, board):

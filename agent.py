@@ -2,10 +2,11 @@ from diamond import Diamond
 from actor import Actor
 from critic import Critic
 from game import Game
-
+from utils import generateAllSAP
 
 class Agent():
-    def __init__(self):
+    def __init__(self, size, boardType):
+        states, SAP = generateAllSAP(size, boardType)
         self.actor = Actor()
         self.critic = Critic()
     

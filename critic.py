@@ -1,10 +1,10 @@
 class Critic:
-    def __init__(self, learningRate, eligibilityDecayRate, discountFactor):
+    def __init__(self, learningRate, eligibilityDecayRate, discountFactor, eligibilityMap, values):
         self.learningRate = learningRate
         self.eligibilityDecayRate = eligibilityDecayRate
         self.discountFactor = discountFactor
-        self.eligibilityMap = {}  # map on state action pairs
-        self.values = {}
+        self.eligibilityMap = eligibilityMap
+        self.values = values
 
     def getTDError(self, state, newState, reinforcement):
         return (
