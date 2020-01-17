@@ -3,16 +3,27 @@ from drawer import Drawer
 from direction import Direction
 
 
-class Diamond:
+class Board:
     board = []
 
-    def __init__(self, size):
-        self.board = [[Node(i, j) for j in range(size)] for i in range(size)]
+    def __init__(self, size, boardType="D", state=""):
+        if boardType == "D":
+            self.board = [[Node(i, j) for j in range(size)] for i in range(size)]
+        elif boardType == "T":
+            self.board = [[Node(i, j) for j in range(size - i)] for i in range(size)]
+        if(state):
+            count = 0
+            for i in range(len(self.board)):
+                for j in range(len(self.board[i])):
+                    if state[count] == "0":
+                        self.board[i][j].empty = True
+                    count += 1
         self.setAllNeigbours(self.board)
+
 
     def positionIsOnBoard(self, r, c):
         # This needs to be generalized for boards that are triangular. The two sides are not neccesarily of equal length
-        return 0 <= r and len(self.board) > r and 0 <= c and len(self.board) > c
+        return 0 <= r and len(self.board) > r and 0 <= c and len(self.board[r]) > c
 
     def allLegalMoves(self):
         legalMoves = []
@@ -73,10 +84,8 @@ class Diamond:
             return self.board[r][c]
 
 
-diamond = Diamond(4)
+diamond = Board(4, boardType="D", state="0001000000000000")
 board = diamond.board
-board[0][0].empty = True
-board[2][2].empty = True
 print(diamond.allLegalMoves())
 drawer = Drawer()
 drawer.draw(diamond.board)

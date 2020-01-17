@@ -26,10 +26,10 @@ class Drawer:
 
         pos = self.generate_pos(board, fullNodes)
         fig, ax = plt.subplots()
-        nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=fullNodes, node_color="b")
+        nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=fullNodes, node_color="gray")
         nx.draw_networkx_nodes(G, ax=ax, pos=pos, nodelist=emptyNodes, node_color="r")
         nx.draw_networkx_edges(G, ax=ax, pos=pos)
-        nx.draw_networkx_labels(G, ax=ax, pos=pos)
+        nx.draw_networkx_labels(G, ax=ax, pos=pos, font_color="blue")
         ax.invert_yaxis()
         plt.axis("off")
         plt.show()
@@ -37,12 +37,10 @@ class Drawer:
     def generate_pos(self, board, fullNodes):
         pos = {}
         for i in range(len(board)):
-            for j in range(len(board)):
+            for j in range(len(board[i])):
                 pos[board[i][j].coordinates] = [
                     300 + i * -30 + j * 30,
                     30 * i + 30 * j,
                 ]
-        for node in fullNodes:
-            print(pos[node])
         return pos
 
