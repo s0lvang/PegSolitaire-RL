@@ -84,8 +84,3 @@ class Board:
             return self.board[r][c]
 
 
-diamond = Board(4, boardType="D", state="0001000000000000")
-board = diamond.board
-print(diamond.allLegalMoves())
-drawer = Drawer()
-drawer.draw(diamond.board)
