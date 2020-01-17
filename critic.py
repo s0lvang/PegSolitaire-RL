@@ -1,8 +1,13 @@
+from settings import critic as settings
+
+
 class Critic:
-    def __init__(self, learningRate, eligibilityDecayRate, discountFactor, eligibilityMap, values):
-        self.learningRate = learningRate
-        self.eligibilityDecayRate = eligibilityDecayRate
-        self.discountFactor = discountFactor
+    def __init__(
+        self, eligibilityMap, values
+    ):
+        self.learningRate = settings["learningRate"]
+        self.eligibilityDecayRate = settings["eligibilityDecayRate"]
+        self.discountFactor = settings["discountFactor"]
         self.eligibilityMap = eligibilityMap
         self.values = values
 
