@@ -21,9 +21,17 @@ class Node:
     def getNeighbours(self):
         return self.neighbours
 
+    def move(self, direction):
+        if self.moveIsLegal(direction):
+            self.empty = True
+            jump_target = self.neighbours[direction]
+            jump_target.empty = False
+        else:
+            return False
+
     def moveIsLegal(self, direction):
         direct_neighbour = self.neighbours[direction]
-        if direct_neighbour and not direct_neighbour.empty:
+        if direct_neighbour and not direct_neighbour.empty and not self.empty:
             jump_target = direct_neighbour.neighbours[direction]
             if jump_target and jump_target.empty:
                 return True
