@@ -1,11 +1,13 @@
 import itertools
 from board import Board
 
+
 def generateAllStates(size, boardType="D"):
-    if boardType=="D":
-        return ["".join(seq) for seq in itertools.product("01", repeat=size*size)]
+    if boardType == "D":
+        return ["".join(seq) for seq in itertools.product("01", repeat=size * size)]
     else:
         raise NotImplementedError
+
 
 def generateAllSAP(size, boardType):
     SAP = {}

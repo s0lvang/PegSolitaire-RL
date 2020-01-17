@@ -8,4 +8,3 @@ class Direction(Enum):
     DOWN = (1, 0)
     DOWNLEFT = (1, -1)
     LEFT = (0, -1)
-

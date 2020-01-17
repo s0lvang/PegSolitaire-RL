@@ -2,9 +2,7 @@ from settings import critic as settings
 
 
 class Critic:
-    def __init__(
-        self, eligibilityMap, values
-    ):
+    def __init__(self, eligibilityMap, values):
         self.learningRate = settings["learningRate"]
         self.eligibilityDecayRate = settings["eligibilityDecayRate"]
         self.discountFactor = settings["discountFactor"]

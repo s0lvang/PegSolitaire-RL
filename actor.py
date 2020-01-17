@@ -44,4 +44,3 @@ class Actor:
 
 
 # Actor(0,0,0,0,0).chooseAction()
-

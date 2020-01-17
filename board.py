@@ -11,7 +11,7 @@ class Board:
             self.board = [[Node(i, j) for j in range(size)] for i in range(size)]
         elif boardType == "T":
             self.board = [[Node(i, j) for j in range(size - i)] for i in range(size)]
-        if(state):
+        if state:
             count = 0
             for i in range(len(self.board)):
                 for j in range(len(self.board[i])):
@@ -19,7 +19,6 @@ class Board:
                         self.board[i][j].empty = True
                     count += 1
         self.setAllNeigbours(self.board)
-
 
     def positionIsOnBoard(self, r, c):
         # This needs to be generalized for boards that are triangular. The two sides are not neccesarily of equal length
@@ -83,5 +82,3 @@ class Board:
     def neighbour(self, r, c):
         if self.positionIsOnBoard(r, c):
             return self.board[r][c]
-
-

@@ -15,7 +15,7 @@ class Drawer:
                 if neighbour:
                     G.add_edge(node.coordinates, neighbour.coordinates)
         emptyNodes = list(
-            map(lambda node: node.coordinates, filter(lambda node: node.empty, nodes),)
+            map(lambda node: node.coordinates, filter(lambda node: node.empty, nodes))
         )
         fullNodes = list(
             map(
@@ -38,9 +38,5 @@ class Drawer:
         pos = {}
         for i in range(len(board)):
             for j in range(len(board[i])):
-                pos[board[i][j].coordinates] = [
-                    300 + i * -30 + j * 30,
-                    30 * i + 30 * j,
-                ]
+                pos[board[i][j].coordinates] = [300 + i * -30 + j * 30, 30 * i + 30 * j]
         return pos
-
