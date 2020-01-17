@@ -8,22 +8,19 @@ class Drawer:
         labels = {}
         # flatten board
         nodes = [node for sublist in board for node in sublist]
-        labels = [node.getCoordinates() for node in nodes]
+        labels = [node.coordinates for node in nodes]
         G.add_nodes_from(labels)
         for node in nodes:
-            for neighbour in node.getNeighbours().values():
+            for neighbour in node.neighbours.values():
                 if neighbour:
-                    G.add_edge(node.getCoordinates(), neighbour.getCoordinates())
+                    G.add_edge(node.coordinates, neighbour.coordinates)
         pos = nx.spring_layout(G, seed=89)
         emptyNodes = list(
-            map(
-                lambda node: node.getCoordinates(),
-                filter(lambda node: node.empty, nodes),
-            )
+            map(lambda node: node.coordinates, filter(lambda node: node.empty, nodes),)
         )
         fullNodes = list(
             map(
-                lambda node: node.getCoordinates(),
+                lambda node: node.coordinates,
                 filter(lambda node: not node.empty, nodes),
             )
         )

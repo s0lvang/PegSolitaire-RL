@@ -39,22 +39,34 @@ class Diamond:
         node.legalMoves()
 
     def upNeighbour(self, node):
-        return self.neighbour(node.r - 1, node.c)
+        r = node.coordinates[0]
+        c = node.coordinates[1]
+        return self.neighbour(r - 1, c)
 
     def upRightNeighbour(self, node):
-        return self.neighbour(node.r - 1, node.c + 1)
+        r = node.coordinates[0]
+        c = node.coordinates[1]
+        return self.neighbour(r - 1, c + 1)
 
     def rightNeighbour(self, node):
-        return self.neighbour(node.r, node.c + 1)
+        r = node.coordinates[0]
+        c = node.coordinates[1]
+        return self.neighbour(r, c + 1)
 
     def downNeighbour(self, node):
-        return self.neighbour(node.r + 1, node.c)
+        r = node.coordinates[0]
+        c = node.coordinates[1]
+        return self.neighbour(r + 1, c)
 
     def downLeftNeighbour(self, node):
-        return self.neighbour(node.r + 1, node.c - 1)
+        r = node.coordinates[0]
+        c = node.coordinates[1]
+        return self.neighbour(r + 1, c - 1)
 
     def leftNeighbour(self, node):
-        return self.neighbour(node.r, node.c - 1)
+        r = node.coordinates[0]
+        c = node.coordinates[1]
+        return self.neighbour(r, c - 1)
 
     def neighbour(self, r, c):
         if self.positionIsOnBoard(r, c):
