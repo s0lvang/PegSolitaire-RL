@@ -7,8 +7,8 @@ from utils import generateAllSAP
 class Agent():
     def __init__(self, size, boardType):
         states, SAP = generateAllSAP(size, boardType)
-        self.actor = Actor()
-        self.critic = Critic()
+        self.actor = Actor(states, SAP)
+        self.critic = Critic(states)
     
     
     def runEpisodes(self, numberOfEpisodes):
@@ -19,8 +19,7 @@ class Agent():
             SAPpairs = []
             while enviroment.endState == False:
                 newState, reinforcement = enviroment.doAction(action) #I think the reinforcement should be the number of Pegs left if there is the endstate is reached. else 0
-                legalActions = enviroment.getLegalActions() #I have not decided in which format the actions should be, I think they can be the state of the board after a given action.
-                newAction = self.actor.getAction(newState, legalActions) # The article about reinforcement learning, just states that the actor chooses an action, but i think it should know which actions are legal. 
+                newAction = self.actor.getAction(newState) # The article about reinforcement learning, just states that the actor chooses an action, but i think it should know which actions are legal. 
                 self.actor.updateEligibility(newState, newAction) # This should update the eligibility of the SAP to 1, but that will be handled in the function
                 TDError = self.critic.getTDError(state, newState, reinforcement)
                 self.critic.updateEligibility(newState, isCurrentState=True) # Should be updated to 1

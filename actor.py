@@ -3,16 +3,14 @@ from settings import actor as settings
 
 
 class Actor:
-    def __init__(self, eligibilityMap, policy):
+    def __init__(self, SAP, states):
         self.learningRate = settings["learningRate"]
         self.eligibilityDecayRate = settings["eligibilityDecayRate"]
         self.discountFactor = settings["discountFactor"]
         self.epsilon = settings["epsilon"]
         self.epsilonDecayRate = settings["epsilonDecayRate"]
         self.eligibilityMap = eligibilityMap  # (s, a) -> eligibility"]
-        self.policy = (
-            policy
-        )  # (s,a) -> z where z is how desirable the action is in the current state
+        self.policy = SAP # (s,a) -> z where z is how desirable the action is in the current state
 
     def updateEligibility(state, action, isCurrentState):
         if isCurrentState:
@@ -28,11 +26,9 @@ class Actor:
         probability = random.randint(0, 100) / 100
         self.epsilon = self.epsilon * self.epsilonDecayRate
         if epsilon > probability:
-            # choose random
-            raise NotImplementedError
+            return random.choice(list(policy[state].keys()))
         else:
-            # choose best
-            raise NotImplementedError
+            return max(policy[state], key=policy[state].get)
 
         return 0
 

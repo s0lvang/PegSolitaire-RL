@@ -2,12 +2,12 @@ from settings import critic as settings
 
 
 class Critic:
-    def __init__(self, eligibilityMap, values):
+    def __init__(self, states):
         self.learningRate = settings["learningRate"]
         self.eligibilityDecayRate = settings["eligibilityDecayRate"]
         self.discountFactor = settings["discountFactor"]
-        self.eligibilityMap = eligibilityMap
-        self.values = values
+        self.eligibilityMap = {state: 1 for state in states}
+        self.values = {state: 0 for state in states}
 
     def getTDError(self, state, newState, reinforcement):
         return (
