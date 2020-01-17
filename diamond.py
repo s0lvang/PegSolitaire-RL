@@ -1,5 +1,6 @@
 from node import Node
 from drawer import Drawer
+from direction import Direction
 
 
 class Diamond:
@@ -13,22 +14,29 @@ class Diamond:
         # This needs to be generalized for boards that are triangular. The two sides are not neccesarily of equal length
         return 0 <= r and len(self.board) > r and 0 <= c and len(self.board) > c
 
+    def allLegalMoves(self):
+        legalMoves = []
+        for row in board:
+            for node in row:
+                legalMoves.append(node.legalMoves())
+        return legalMoves
+
     def setAllNeigbours(self, board):
         for row in board:
             for node in row:
                 self.setNeighbours(node)
 
     def setNeighbours(self, node):
-        neighbours = [
-            self.upNeighbour(node),
-            self.upRightNeighbour(node),
-            self.rightNeighbour(node),
-            self.downNeighbour(node),
-            self.downLeftNeighbour(node),
-            self.leftNeighbour(node),
-        ]
+        neighbours = {
+            Direction.UP: self.upNeighbour(node),
+            Direction.UPRIGHT: self.upRightNeighbour(node),
+            Direction.RIGHT: self.rightNeighbour(node),
+            Direction.DOWN: self.downNeighbour(node),
+            Direction.DOWNLEFT: self.downLeftNeighbour(node),
+            Direction.LEFT: self.leftNeighbour(node),
+        }
         node.setNeighbours(neighbours)
-        print(node)
+        node.legalMoves()
 
     def upNeighbour(self, node):
         return self.neighbour(node.r - 1, node.c)
@@ -54,5 +62,9 @@ class Diamond:
 
 
 diamond = Diamond(4)
+board = diamond.board
+board[0][0].empty = True
+board[2][2].empty = True
+print(diamond.allLegalMoves())
 drawer = Drawer()
 drawer.draw(diamond.board)
