@@ -1,18 +1,18 @@
-from diamond import Diamond
 from actor import Actor
 from critic import Critic
 from game import Game
 from utils import generateAllSAP
+from settings import game as settings
 
 class Agent():
-    def __init__(self, size, boardType):
-        states, SAP = generateAllSAP(size, boardType)
-        self.actor = Actor(states, SAP)
+    def __init__(self):
+        states, SAP = generateAllSAP(settings["size"], settings["boardType"])
+        self.actor = Actor(SAP)
         self.critic = Critic(states)
     
     
     def runEpisodes(self, numberOfEpisodes):
-        for _ in range numberOfEpisodes:
+        for _ in range(numberOfEpisodes):
             enviroment = Game() # new game ish don't know the interface excactly
             state = enviroment.getState() # the board represented in a bitstring maybe initalize as None
             action = None # No action should be done initially.
@@ -32,3 +32,7 @@ class Agent():
                     self.actor.updatePolicy(s, a, TDError) # update the entry for the sap in the actor
                     self.actor.updateEligibility(s,a) # update the eligibility y * gamma * e(s,a)
                 state, action = newState, newAction
+
+
+
+agent = Agent()

@@ -3,14 +3,18 @@ from settings import actor as settings
 
 
 class Actor:
-    def __init__(self, SAP, states):
+    def __init__(self, SAP):
         self.learningRate = settings["learningRate"]
         self.eligibilityDecayRate = settings["eligibilityDecayRate"]
         self.discountFactor = settings["discountFactor"]
         self.epsilon = settings["epsilon"]
         self.epsilonDecayRate = settings["epsilonDecayRate"]
-        self.eligibilityMap = eligibilityMap  # (s, a) -> eligibility"]
-        self.policy = SAP # (s,a) -> z where z is how desirable the action is in the current state
+        self.eligibilityMap = {
+            state: {action: 1 for action in SAP[state].keys()} for state in SAP.keys()
+        }  # (s, a) -> eligibility"]
+        self.policy = (
+            SAP
+        )  # (s,a) -> z where z is how desirable the action is in the current state
 
     def updateEligibility(state, action, isCurrentState):
         if isCurrentState:
@@ -30,13 +34,9 @@ class Actor:
         else:
             return max(policy[state], key=policy[state].get)
 
-        return 0
-
     def updatePolicy(state, action, TDerror):
         self.policy[state, action] = (
             self.policy[state, action]
             + self.learningRate * TDerror * eligibilityMap[state, action]
         )
 
-
-# Actor(0,0,0,0,0).chooseAction()

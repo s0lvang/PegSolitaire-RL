@@ -8,6 +8,3 @@ class Game:
         self.board = Board(settings["size"], settings["boardType"], settings["state"])
 
 
-game = Game()
-drawer = Drawer()
-drawer.draw(game.board.board)
