@@ -35,7 +35,7 @@ class Node:
 
     def legalMoves(self):
         return [
-            direction
+            (self.coordinates, direction)
             for direction in filter(
                 lambda direction: self.moveIsLegal(direction), self.neighbours.keys()
             )

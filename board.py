@@ -48,6 +48,31 @@ class Board:
         }
         node.setNeighbours(neighbours)
         node.legalMoves()
+    
+    def isEndState(self):
+        return not len(self.allLegalMoves())
+    
+    def getState(self):
+        bitString = ""
+        for row in self.board:
+            for node in row:
+                if node.empty:
+                    bitString+="0"
+                else:
+                    bitString+="1"
+        return bitString
+    
+    def move(self, action):
+        if action:
+            node = self.getNodeFromCoordinates(action[0])
+            node.move(action[1])
+        reinforcement = self.getState().count("0") if self.isEndState() else 0 
+        return self.getState(), reinforcement
+    
+    def getNodeFromCoordinates(self, coordinates):
+        return self.board[coordinates[0]][coordinates[1]]
+
+
 
     def upNeighbour(self, node):
         r = node.coordinates[0]
