@@ -11,7 +11,9 @@ class Critic:
 
     def getTDError(self, state, newState, reinforcement):
         return (
-            reinforcement + self.discountFactor * self.values[newState] - self.values[state]
+            reinforcement
+            + self.discountFactor * self.values[newState]
+            - self.values[state]
         )
 
     def updateEligibility(self, state, isCurrentState=False):

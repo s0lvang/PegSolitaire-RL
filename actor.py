@@ -39,4 +39,3 @@ class Actor:
             self.policy[state][action]
             + self.learningRate * TDerror * self.eligibilityMap[state][action]
         )
-
