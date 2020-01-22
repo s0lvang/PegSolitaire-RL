@@ -50,16 +50,18 @@ class Agent:
             self.actor.updateEligibility(newState, newAction, isCurrentState=True)
             TDError = self.critic.getTDError(state, newState, reinforcement)
             self.critic.updateEligibility(newState, isCurrentState=True)
+
             if action:
                 SAPpairs.append((state, action))
 
-            for SAP in SAPpairs:
-                s, a = SAP
+            for (s, a) in SAPpairs:
                 self.critic.updateValueFunction(s, TDError)
                 self.critic.updateEligibility(s)
                 self.actor.updatePolicy(s, a, TDError)
                 self.actor.updateEligibility(s, a)
+
             state, action = newState, newAction
+
         if reinforcement == 3000:
             pegsLeft.append(24)
         else:
