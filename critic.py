@@ -3,18 +3,18 @@ import random
 
 
 class Critic:
-    def __init__(self, states):
+    def __init__(self):
         self.learningRate = settings["learningRate"]
         self.eligibilityDecayRate = settings["eligibilityDecayRate"]
         self.discountFactor = settings["discountFactor"]
-        self.eligibilityMap = {state: 1 for state in states}
-        self.values = {state: random.randint(0,100)/100  for state in states}
+        self.eligibilityMap = {}
+        self.values = {}
 
     def getTDError(self, state, newState, reinforcement):
         return (
             reinforcement
-            + self.discountFactor * self.values[newState]
-            - self.values[state]
+            + self.discountFactor * self.values.get(newState, random.uniform(0,1))
+            - self.values.get(state, random.uniform(0,1))
         )
 
     def updateEligibility(self, state, isCurrentState=False):
@@ -24,11 +24,11 @@ class Critic:
             self.eligibilityMap[state] = (
                 self.discountFactor
                 * self.eligibilityDecayRate
-                * self.eligibilityMap[state]
+                * self.eligibilityMap.get(state, random.uniform(0,1))
             )
 
     def updateValueFunction(self, state, TDerror):
         self.values[state] = (
-            self.values[state]
-            + self.learningRate * TDerror * self.eligibilityMap[state]
+            self.values.get(state, random.uniform(0,1))
+            + self.learningRate * TDerror * self.eligibilityMap.get(state, random.uniform(0,1))
         )

@@ -9,9 +9,9 @@ import numpy as np
 
 class Agent:
     def __init__(self):
-        states, SAP = generateAllSAP(settings["size"], settings["boardType"])
-        self.actor = Actor(SAP)
-        self.critic = Critic(states)
+        #states, SAP = generateAllSAP(settings["size"], settings["boardType"])
+        self.actor = Actor()
+        self.critic = Critic()
         self.drawer = Drawer()
 
     def runEpisodes(self, numberOfEpisodes):
@@ -25,11 +25,12 @@ class Agent:
             SAPpairs = []
             while not enviroment.isEndState():
                 newState, reinforcement = enviroment.board.move(action)
+                legalMoves = enviroment.board.allLegalMoves()
                 if enviroment.isEndState():
                     newAction = action
                 else:
                     newAction = self.actor.chooseAction(
-                        newState
+                        newState, legalMoves
                     )  # The article about reinforcement learning, just states that the actor chooses an action, but i think it should know which actions are legal.
                 self.actor.updateEligibility(
                     newState, newAction, isCurrentState=True
@@ -58,7 +59,7 @@ class Agent:
                     )  # update the eligibility y * gamma * e(s,a)
                 state, action = newState, newAction
             if reinforcement==3000:
-                pegsLeft.append(15)
+                pegsLeft.append(24)
             else:
                 pegsLeft.append(reinforcement)
         

@@ -7,6 +7,7 @@ class Board:
     board = []
 
     def __init__(self, size, boardType="D", state=""):
+        self.size = size
         if boardType == "D":
             self.board = [[Node(i, j) for j in range(size)] for i in range(size)]
         elif boardType == "T":
@@ -67,7 +68,7 @@ class Board:
             node = self.getNodeFromCoordinates(action[0])
             node.move(action[1])
         reinforcement = self.getState().count("0")
-        if reinforcement == 15:
+        if reinforcement == self.size - 1:
             reinforcement = 3000
         return self.getState(), reinforcement
 

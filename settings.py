@@ -8,7 +8,7 @@ actor = dict(
 
 critic = dict(learningRate=0.3, eligibilityDecayRate=0.8, discountFactor=0.8)
 
-game = dict(size=5, boardType="D", state="11111111011111111")
+game = dict(size=5, boardType="D", state="1111111101111111111111111111111111111111111")
 
 """
 game = dict(
