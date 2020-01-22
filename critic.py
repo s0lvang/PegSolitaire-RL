@@ -1,4 +1,5 @@
 from settings import critic as settings
+import random
 
 
 class Critic:
@@ -7,7 +8,7 @@ class Critic:
         self.eligibilityDecayRate = settings["eligibilityDecayRate"]
         self.discountFactor = settings["discountFactor"]
         self.eligibilityMap = {state: 1 for state in states}
-        self.values = {state: 0 for state in states}
+        self.values = {state: random.randint(0,100)/100  for state in states}
 
     def getTDError(self, state, newState, reinforcement):
         return (

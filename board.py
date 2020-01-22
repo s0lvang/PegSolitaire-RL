@@ -66,7 +66,9 @@ class Board:
         if action:
             node = self.getNodeFromCoordinates(action[0])
             node.move(action[1])
-        reinforcement = self.getState().count("0") if self.isEndState() else 0
+        reinforcement = self.getState().count("0")
+        if reinforcement == 15:
+            reinforcement = 3000
         return self.getState(), reinforcement
 
     def getNodeFromCoordinates(self, coordinates):

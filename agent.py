@@ -5,7 +5,7 @@ from utils import generateAllSAP
 from settings import game as settings
 from matplotlib import pyplot as plt
 from drawer import Drawer
-
+import numpy as np
 
 class Agent:
     def __init__(self):
@@ -57,8 +57,13 @@ class Agent:
                         s, a
                     )  # update the eligibility y * gamma * e(s,a)
                 state, action = newState, newAction
-            pegsLeft.append(reinforcement)
-        plt.plot(pegsLeft)
+            if reinforcement==3000:
+                pegsLeft.append(15)
+            else:
+                pegsLeft.append(reinforcement)
+        
+        a = np.convolve(pegsLeft, np.ones((100,))/100, mode='valid')
+        plt.plot(a)
         plt.show()
         print(pegsLeft)
 
