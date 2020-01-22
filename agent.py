@@ -6,6 +6,7 @@ from settings import game as settings
 from matplotlib import pyplot as plt
 from drawer import Drawer
 import numpy as np
+from board import Board
 
 
 class Agent:
@@ -21,17 +22,21 @@ class Agent:
             self.runEpisode(episodeNumber, pegsLeft)
         self.displayResults(pegsLeft)
 
+    def takeMove(self, action, board):
+        newState, reinforcement = board.move(action)
+        return newState, reinforcement
+
     def runEpisode(self, episodeNumber, pegsLeft):
-        environment = Game()  # new game ish don't know the interface excactly
+        board = Board(settings["size"], settings["boardType"], settings["state"])
         state = (
-            environment.board.getBitString()
+            board.getBitString()
         )  # the board represented in a bitstring maybe initalize as None
         action = None  # No action should be done initially.
         SAPpairs = []
-        while not environment.isEndState():
-            newState, reinforcement = self.takeMove(action, environment)
-            legalMoves = environment.board.allLegalMoves()
-            if environment.isEndState():
+        while not board.isEndState():
+            newState, reinforcement = self.takeMove(action, board)
+            legalMoves = board.allLegalMoves()
+            if board.isEndState():
                 newAction = action
             else:
                 newAction = self.actor.chooseAction(
@@ -48,7 +53,7 @@ class Agent:
                 SAPpairs.append((state, action))
 
             # if episodeNumber == 500:
-            #     self.drawer.draw(environment.board.board)
+            #     self.drawer.draw(board)
 
             for SAP in SAPpairs:
                 s, a = SAP
