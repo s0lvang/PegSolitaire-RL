@@ -28,15 +28,14 @@ class Agent:
 
     def runEpisode(self, episodeNumber, pegsLeft):
         board = Board(settings["size"], settings["boardType"], settings["state"])
-        state = (
-            board.getBitString()
-        )  # the board represented in a bitstring maybe initalize as None
+        state = board.bitString
+        # the board represented in a bitstring maybe initalize as None
         action = None  # No action should be done initially.
         SAPpairs = []
-        while not board.isEndState():
+        while not board.isInEndState():
             newState, reinforcement = self.takeMove(action, board)
             legalMoves = board.allLegalMoves()
-            if board.isEndState():
+            if board.isInEndState():
                 newAction = action
             else:
                 newAction = self.actor.chooseAction(
