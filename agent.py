@@ -47,8 +47,8 @@ class Agent:
             if action:
                 SAPpairs.append((state, action))
 
-            if episodeNumber == 500:
-                self.drawer.draw(enviroment.board.board)
+            # if episodeNumber == 500:
+            #     self.drawer.draw(environment.board.board)
 
             for SAP in SAPpairs:
                 s, a = SAP
@@ -76,4 +76,4 @@ class Agent:
 
 
 agent = Agent()
-agent.runEpisodes(3000)
+agent.runEpisodes(100)
