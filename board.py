@@ -53,7 +53,7 @@ class Board:
     def isEndState(self):
         return not len(self.allLegalMoves())
 
-    def getState(self):
+    def getBitString(self):
         bitString = ""
         for row in self.board:
             for node in row:
@@ -67,10 +67,10 @@ class Board:
         if action:
             node = self.getNodeFromCoordinates(action[0])
             node.move(action[1])
-        reinforcement = self.getState().count("0")
-        if reinforcement == self.size - 1:
-            reinforcement = 3000
-        return self.getState(), reinforcement
+        emptySlots = self.getBitString().count("0")
+        if emptySlots == self.size - 1:
+            emptySlots = 3000
+        return self.getBitString(), emptySlots
 
     def getNodeFromCoordinates(self, coordinates):
         return self.board[coordinates[0]][coordinates[1]]

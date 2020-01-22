@@ -24,7 +24,7 @@ class Agent:
     def runEpisode(self, episodeNumber, pegsLeft):
         enviroment = Game()  # new game ish don't know the interface excactly
         state = (
-            enviroment.board.getState()
+            enviroment.board.getBitString()
         )  # the board represented in a bitstring maybe initalize as None
         action = None  # No action should be done initially.
         SAPpairs = []
