@@ -26,21 +26,32 @@ class Agent:
         newState, reinforcement = board.move(action)
         return newState, reinforcement
 
-    def runEpisode(self, episodeNumber, pegsLeft):
+    def initalizeEpisode(self):
         board = Board(settings["size"], settings["boardType"], settings["state"])
         state = board.bitString
         # the board represented in a bitstring maybe initalize as None
         action = None  # No action should be done initially.
         SAPpairs = []
+        return board, state, action, SAPpairs
+
+    def chooseNextAction(self, board, action, newState):
+        legalMoves = board.allLegalMoves()
+        if board.isInEndState():
+            newAction = action
+        else:
+            newAction = self.actor.chooseAction(
+                newState, legalMoves
+            )  # The article about reinforcement learning, just states that the actor chooses an action, but i think it should know which actions are legal.
+
+        return newAction
+
+    def runEpisode(self, episodeNumber, pegsLeft):
+        # Initialize s and a
+        board, state, action, SAPpairs = self.initalizeEpisode()
         while not board.isInEndState():
+            # Do action a from state s moving system to newState and receiving reinforcement r.
             newState, reinforcement = self.takeMove(action, board)
-            legalMoves = board.allLegalMoves()
-            if board.isInEndState():
-                newAction = action
-            else:
-                newAction = self.actor.chooseAction(
-                    newState, legalMoves
-                )  # The article about reinforcement learning, just states that the actor chooses an action, but i think it should know which actions are legal.
+            newAction = self.chooseNextAction(board, action, newState)
             self.actor.updateEligibility(
                 newState, newAction, isCurrentState=True
             )  # This should update the eligibility of the SAP to 1, but that will be handled in the function
@@ -50,9 +61,6 @@ class Agent:
             )  # Should be updated to 1
             if action:
                 SAPpairs.append((state, action))
-
-            # if episodeNumber == 500:
-            #     self.drawer.draw(board)
 
             for SAP in SAPpairs:
                 s, a = SAP
