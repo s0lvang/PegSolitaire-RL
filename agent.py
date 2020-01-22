@@ -22,16 +22,16 @@ class Agent:
         self.displayResults(pegsLeft)
 
     def runEpisode(self, episodeNumber, pegsLeft):
-        enviroment = Game()  # new game ish don't know the interface excactly
+        environment = Game()  # new game ish don't know the interface excactly
         state = (
-            enviroment.board.getBitString()
+            environment.board.getBitString()
         )  # the board represented in a bitstring maybe initalize as None
         action = None  # No action should be done initially.
         SAPpairs = []
-        while not enviroment.isEndState():
-            newState, reinforcement = enviroment.board.move(action)
-            legalMoves = enviroment.board.allLegalMoves()
-            if enviroment.isEndState():
+        while not environment.isEndState():
+            newState, reinforcement = self.takeMove(action, environment)
+            legalMoves = environment.board.allLegalMoves()
+            if environment.isEndState():
                 newAction = action
             else:
                 newAction = self.actor.chooseAction(
