@@ -47,7 +47,7 @@ class Agent:
             if action:
                 SAPpairs.append((state, action))
 
-            if pegsLeft == 500:
+            if episodeNumber == 500:
                 self.drawer.draw(enviroment.board.board)
 
             for SAP in SAPpairs:
