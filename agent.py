@@ -24,7 +24,7 @@ class Agent:
             action = None  # No action should be done initially.
             SAPpairs = []
             while not enviroment.isEndState():
-                newState, reinforcement = enviroment.board.move(action)
+                newState, reinforcement, pegs = enviroment.board.move(action)
                 legalMoves = enviroment.board.allLegalMoves()
                 if enviroment.isEndState():
                     newAction = action
@@ -42,7 +42,7 @@ class Agent:
                 if action:
                     SAPpairs.append((state, action))
 
-                if _ == 500:
+                if _ == 9999:
                     self.drawer.draw(enviroment.board.board)
 
                 for SAP in SAPpairs:
@@ -58,10 +58,7 @@ class Agent:
                         s, a
                     )  # update the eligibility y * gamma * e(s,a)
                 state, action = newState, newAction
-            if reinforcement==3000:
-                pegsLeft.append(24)
-            else:
-                pegsLeft.append(reinforcement)
+            pegsLeft.append(pegs)
         
         a = np.convolve(pegsLeft, np.ones((100,))/100, mode='valid')
         plt.plot(a)
