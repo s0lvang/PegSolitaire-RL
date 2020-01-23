@@ -11,24 +11,28 @@ class Critic:
         self.values = {}
 
     def getTDError(self, state, newState, reinforcement):
-        return (
-            reinforcement
-            + self.discountFactor * self.values.get(newState, random.uniform(0,1))
-            - self.values.get(state, random.uniform(0,1))
-        )
+        rewardAtNewState = self.values.get(newState, random.uniform(0, 1))
+        discountedRewardAtNewState = self.discountFactor * rewardAtNewState
+        rewardAtCurrentState = self.values.get(state, random.uniform(0, 1))
+
+        return reinforcement + discountedRewardAtNewState - rewardAtCurrentState
 
     def updateEligibility(self, state, isCurrentState=False):
         if isCurrentState:
-            self.eligibilityMap[state] = 1
+            newEligibilityOfState = 1
+            self.eligibilityMap[state] = newEligibilityOfState
         else:
-            self.eligibilityMap[state] = (
-                self.discountFactor
-                * self.eligibilityDecayRate
-                * self.eligibilityMap.get(state, random.uniform(0,1))
+            eligibilityOfState = self.eligibilityMap.get(state, random.uniform(0, 1))
+            newEligibilityOfState = (
+                self.discountFactor * self.eligibilityDecayRate * eligibilityOfState
             )
 
+            self.eligibilityMap[state] = newEligibilityOfState
+
     def updateValueFunction(self, state, TDerror):
+        valueOfState = self.values.get(state, random.uniform(0, 1))
+        eligibilityOfState = self.eligibilityMap.get(state, random.uniform(0, 1))
+
         self.values[state] = (
-            self.values.get(state, random.uniform(0,1))
-            + self.learningRate * TDerror * self.eligibilityMap.get(state, random.uniform(0,1))
+            valueOfState + self.learningRate * TDerror * eligibilityOfState
         )
