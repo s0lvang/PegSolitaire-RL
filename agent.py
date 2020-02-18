@@ -55,7 +55,7 @@ class Agent:
             for SAP in SAPpairs:
                 s, a = SAP
                 self.critic.updateValueFunction(
-                    s, TDError
+                    s, newState, reinforcement
                 )  # updates the entry for s in the valuefunction
                 self.critic.updateEligibility(s)  # should be Y * gamma * e(s)
                 self.actor.updatePolicy(
@@ -72,8 +72,7 @@ class Agent:
         plt.ylim(0, max(a) + 2)
         plt.plot(a)
         plt.show()
-        print(pegsLeft)
 
 
 agent = Agent()
-agent.runEpisodes(3000)
+agent.runEpisodes(300)

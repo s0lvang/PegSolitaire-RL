@@ -8,7 +8,7 @@ class NeuralNetCritic:
         self.learningRate = settings["learningRate"]
         self.eligibilityDecayRate = settings["eligibilityDecayRate"]
         self.discountFactor = settings["discountFactor"]
-        self.net = NeuralNet(nodes=[16, 10, 10])
+        self.net = NeuralNet(nodes=[15, 10])
 
     def getTDError(self, state, newState, reinforcement):
         return self.net.criterion(state, newState, reinforcement)
@@ -16,5 +16,5 @@ class NeuralNetCritic:
     def updateEligibility(self, state, isCurrentState=False):
         return True
 
-    def updateValueFunction(self, state, TDerror):
-        self.net.train(state, TDerror)
+    def updateValueFunction(self, state, newState, reinforcement):
+        self.net.train(state, newState, reinforcement)
