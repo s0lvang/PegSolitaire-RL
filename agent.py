@@ -42,7 +42,7 @@ class Agent:
 
         return newAction
 
-    def runEpisode(self, episodeNumber, pegsLeft):
+    def runEpisode(self, episodeNumber, pegsLeftInEpisodes):
         board, state, action, SAPpairs = self.initalizeEpisode()
         while not board.isInEndState():
             newState, reinforcement, pegsLeft = self.takeMove(action, board)
@@ -61,7 +61,7 @@ class Agent:
                 self.actor.updateEligibility(s, a)
 
             state, action = newState, newAction
-        pegsLeft.append(pegsLeft)
+        pegsLeftInEpisodes.append(pegsLeft)
 
     def displayResults(self, pegsLeft):
         a = np.convolve(pegsLeft, np.ones((100,)) / 100, mode="valid")
