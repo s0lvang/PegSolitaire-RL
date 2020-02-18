@@ -19,6 +19,7 @@ class Board:
                         self.board[i][j].empty = True
                     count += 1
         self.setAllNeigbours(self.board)
+        self.updateBitString()
 
     def positionIsOnBoard(self, r, c):
         # This needs to be generalized for boards that are triangular. The two sides are not neccesarily of equal length
@@ -49,10 +50,10 @@ class Board:
         node.setNeighbours(neighbours)
         node.legalMoves()
 
-    def isEndState(self):
+    def isInEndState(self):
         return not len(self.allLegalMoves())
 
-    def getState(self):
+    def updateBitString(self):
         bitString = ""
         for row in self.board:
             for node in row:
@@ -60,20 +61,20 @@ class Board:
                     bitString += "0"
                 else:
                     bitString += "1"
-        return bitString
+        self.bitString = bitString
 
     def move(self, action):
         if action:
             node = self.getNodeFromCoordinates(action[0])
             node.move(action[1])
+        self.updateBitString()
+        pegsLeft = self.bitString.count("1")
         reinforcement = 0
-        pegsLeft = self.getState().count("1")
-        if self.isEndState():
-            if pegsLeft == 1:
-                reinforcement = 100
-            else:
-                reinforcement = -100
-        return self.getState(), reinforcement, pegsLeft
+        if pegsLeft == 1:
+            reinforcement = 100
+        else:
+            reinforcement = -100
+        return self.bitString, reinforcement, pegsLeft
 
     def getNodeFromCoordinates(self, coordinates):
         return self.board[coordinates[0]][coordinates[1]]
