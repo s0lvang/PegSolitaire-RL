@@ -11,7 +11,9 @@ class NeuralNet(nn.Module):
         self.discountFactor = discountFactor
         for i in range(len(nodes) - 1):
             layer = nn.Linear(nodes[i], nodes[i + 1])
+            reluLayer = nn.ReLU()
             self.layers.append(layer)
+            self.layers.append(reluLayer)
         outputLayer = nn.Linear(nodes[-1], 1)
         self.layers.append(outputLayer)
         self.model = nn.Sequential(*self.layers)
@@ -33,15 +35,11 @@ class NeuralNet(nn.Module):
     def train(self, state, newState, reinforcement):
         self.optimizer.zero_grad()
         # forward + backward + optimize
-        #outputs = self.forward(state)
+        # outputs = self.forward(state)
         with torch.no_grad():
-            TDerror =  (
-                    reinforcement
-                    + self.discountFactor * self.forward(newState)
-                )
+            TDerror = reinforcement + self.discountFactor * self.forward(newState)
         loss = F.mse_loss(self.forward(state), TDerror)
-        print(loss)
-        #loss = abs(TDerror)
+        # loss = abs(TDerror)
         loss.backward()  # Aner ikke hvorfor jeg har retain graph men det får da være
         self.optimizer.step()
 
