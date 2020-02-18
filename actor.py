@@ -18,26 +18,30 @@ class Actor:
         if isCurrentState:
             self.eligibilityMap.get(state, {})[action] = 1
         else:
+            eligibilityOfState = self.eligibilityMap.get(state, {}).get(
+                action, random.uniform(0, 1)
+            )
             self.eligibilityMap.get(state, {})[action] = (
-                self.discountFactor
-                * self.eligibilityDecayRate
-                * self.eligibilityMap.get(state, {}).get(action, random.uniform(0, 1))
+                self.discountFactor * self.eligibilityDecayRate * eligibilityOfState
             )
 
     def chooseAction(self, state, legalMoves):
-        probability = random.uniform(0, 1)
         self.epsilon = self.epsilon * self.epsilonDecayRate
-        if self.epsilon > probability:
+        if self.epsilon > random.uniform(0, 1):
             return random.choice(legalMoves)
         else:
-            self.policy[state] = self.policy.get(
-                state, {action: random.uniform(0, 1) for action in legalMoves}
-            )
+            initialStatePolicy = {action: random.uniform(0, 1) for action in legalMoves}
+            policyForState = self.policy.get(state, initialStatePolicy)
+            self.policy[state] = policyForState
             return max(self.policy[state], key=self.policy[state].get)
 
     def updatePolicy(self, state, action, TDerror):
-        self.policy.get(state, {})[action] = self.policy.get(state, {}).get(
-            action, random.uniform(0, 1)
-        ) + self.learningRate * TDerror * self.eligibilityMap.get(state, {}).get(
+        currentValuesForState = self.policy.get(state, {})
+        valueForAction = currentValuesForState.get(action, random.uniform(0, 1))
+        eligibilityForSAP = self.eligibilityMap.get(state, {}).get(
             action, random.uniform(0, 1)
         )
+        newValueForAction = (
+            valueForAction + self.learningRate * TDerror * eligibilityForSAP
+        )
+        self.policy.get(state, {})[action] = newValueForAction
