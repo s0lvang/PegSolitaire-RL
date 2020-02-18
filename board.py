@@ -7,7 +7,6 @@ class Board:
     board = []
 
     def __init__(self, size, boardType="D", state=""):
-        self.size = size
         if boardType == "D":
             self.board = [[Node(i, j) for j in range(size)] for i in range(size)]
         elif boardType == "T":
@@ -69,10 +68,13 @@ class Board:
             node = self.getNodeFromCoordinates(action[0])
             node.move(action[1])
         self.updateBitString()
-        emptySlots = self.bitString.count("0")
-        if emptySlots == self.size - 1:
-            emptySlots = 3000
-        return self.bitString, emptySlots
+        pegsLeft = self.bitString.count("1")
+        reinforcement = 0
+        if pegsLeft == 1:
+            reinforcement = 3000
+        else:
+            reinforcement = -100
+        return self.bitString, reinforcement, pegsLeft
 
     def getNodeFromCoordinates(self, coordinates):
         return self.board[coordinates[0]][coordinates[1]]

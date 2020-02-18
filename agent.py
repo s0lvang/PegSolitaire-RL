@@ -23,8 +23,8 @@ class Agent:
         self.displayResults(pegsLeft)
 
     def takeMove(self, action, board):
-        newState, reinforcement = board.move(action)
-        return newState, reinforcement
+        newState, reinforcement, pegsLeft = board.move(action)
+        return newState, reinforcement, pegsLeft
 
     def initalizeEpisode(self):
         board = Board(settings["size"], settings["boardType"], settings["state"])
@@ -45,7 +45,7 @@ class Agent:
     def runEpisode(self, episodeNumber, pegsLeft):
         board, state, action, SAPpairs = self.initalizeEpisode()
         while not board.isInEndState():
-            newState, reinforcement = self.takeMove(action, board)
+            newState, reinforcement, pegsLeft = self.takeMove(action, board)
             newAction = self.chooseNextAction(board, action, newState)
             self.actor.updateEligibility(newState, newAction, isCurrentState=True)
             TDError = self.critic.getTDError(state, newState, reinforcement)
@@ -61,14 +61,11 @@ class Agent:
                 self.actor.updateEligibility(s, a)
 
             state, action = newState, newAction
-
-        if reinforcement == 3000:
-            pegsLeft.append(24)
-        else:
-            pegsLeft.append(reinforcement)
+        pegsLeft.append(pegsLeft)
 
     def displayResults(self, pegsLeft):
         a = np.convolve(pegsLeft, np.ones((100,)) / 100, mode="valid")
+        plt.ylim(0, max(a) + 2)
         plt.plot(a)
         plt.show()
         print(pegsLeft)
