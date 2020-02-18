@@ -1,5 +1,6 @@
 from actor import Actor
 from critic import Critic
+from neuralNetCritic import NeuralNetCritic
 from game import Game
 from utils import generateAllSAP
 from settings import game as settings
@@ -12,7 +13,7 @@ class Agent:
     def __init__(self):
         # states, SAP = generateAllSAP(settings["size"], settings["boardType"])
         self.actor = Actor()
-        self.critic = Critic()
+        self.critic = NeuralNetCritic()
         self.drawer = Drawer()
 
     def runEpisodes(self, numberOfEpisodes):
@@ -47,7 +48,8 @@ class Agent:
             if action:
                 SAPpairs.append((state, action))
 
-            if episodeNumber == 500:
+            if episodeNumber == 29999:
+                self.actor.epsilon = 0
                 self.drawer.draw(enviroment.board.board)
 
             for SAP in SAPpairs:
@@ -67,7 +69,7 @@ class Agent:
 
     def displayResults(self, pegsLeft):
         a = np.convolve(pegsLeft, np.ones((100,)) / 100, mode="valid")
-        plt.ylim(0,max(a)+2)
+        plt.ylim(0, max(a) + 2)
         plt.plot(a)
         plt.show()
         print(pegsLeft)

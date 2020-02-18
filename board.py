@@ -70,7 +70,7 @@ class Board:
         pegsLeft = self.getState().count("1")
         if self.isEndState():
             if pegsLeft == 1:
-                reinforcement = 3000
+                reinforcement = 100
             else:
                 reinforcement = -100
         return self.getState(), reinforcement, pegsLeft
