@@ -20,14 +20,13 @@ class Critic:
     def updateEligibility(self, state, isCurrentState=False):
         if isCurrentState:
             newEligibilityOfState = 1
-            self.eligibilityMap[state] = newEligibilityOfState
         else:
             eligibilityOfState = self.eligibilityMap.get(state, random.uniform(0, 1))
             newEligibilityOfState = (
                 self.discountFactor * self.eligibilityDecayRate * eligibilityOfState
             )
 
-            self.eligibilityMap[state] = newEligibilityOfState
+        self.eligibilityMap[state] = newEligibilityOfState
 
     def updateValueFunction(self, state, TDerror):
         valueOfState = self.values.get(state, random.uniform(0, 1))
