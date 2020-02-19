@@ -1,9 +1,7 @@
 from actor import Actor
 from critic import Critic
 from neuralNetCritic import NeuralNetCritic
-from game import Game
-from utils import generateAllSAP
-from settings import game as settings
+from config import game as config
 from matplotlib import pyplot as plt
 from drawer import Drawer
 import numpy as np
@@ -12,41 +10,20 @@ from board import Board
 
 class Agent:
     def __init__(self):
-        # states, SAP = generateAllSAP(settings["size"], settings["boardType"])
         self.actor = Actor()
         self.critic = NeuralNetCritic()
         self.drawer = Drawer()
 
     def runEpisodes(self, numberOfEpisodes):
-        pegsLeft = []
+        scores = []
         for episodeNumber in range(numberOfEpisodes):
-            self.runEpisode(episodeNumber, pegsLeft)
-        self.displayResults(pegsLeft)
+            self.runEpisode(episodeNumber, scores)
+        self.displayResults(scores)
 
-    def takeMove(self, action, board):
-        newState, reinforcement, pegsLeft = board.move(action)
-        return newState, reinforcement, pegsLeft
-
-    def initalizeEpisode(self):
-        board = Board(settings["size"], settings["boardType"], settings["state"])
-        state = board.bitString
-        action = None
-        SAPpairs = []
-        return board, state, action, SAPpairs
-
-    def chooseNextAction(self, board, action, newState):
-        legalMoves = board.allLegalMoves()
-        if board.isInEndState():
-            newAction = action
-        else:
-            newAction = self.actor.chooseAction(newState, legalMoves)
-
-        return newAction
-
-    def runEpisode(self, episodeNumber, pegsLeftInEpisodes):
+    def runEpisode(self, episodeNumber, scores):
         board, state, action, SAPpairs = self.initalizeEpisode()
         while not board.isInEndState():
-            newState, reinforcement, pegsLeft = self.takeMove(action, board)
+            newState, reinforcement, score = board.move(action)
             newAction = self.chooseNextAction(board, action, newState)
             self.actor.updateEligibility(newState, newAction, isCurrentState=True)
             TDError = self.critic.getTDError(state, newState, reinforcement)
@@ -62,10 +39,26 @@ class Agent:
                 self.actor.updateEligibility(s, a)
 
             state, action = newState, newAction
-        pegsLeftInEpisodes.append(pegsLeft)
+        scores.append(score)
 
-    def displayResults(self, pegsLeft):
-        a = np.convolve(pegsLeft, np.ones((100,)) / 100, mode="valid")
+    def initalizeEpisode(self):
+        board = Board(config["size"], config["boardType"], config["state"])
+        state = board.bitString
+        action = None
+        SAPpairs = []
+        return board, state, action, SAPpairs
+
+    def chooseNextAction(self, board, action, newState):
+        legalMoves = board.allLegalMoves()
+        if board.isInEndState():
+            newAction = action
+        else:
+            newAction = self.actor.chooseAction(newState, legalMoves)
+
+        return newAction
+
+    def displayResults(self, scores):
+        a = np.convolve(scores, np.ones((100,)) / 100, mode="valid")
         plt.ylim(0, max(a) + 2)
         plt.plot(a)
         plt.show()

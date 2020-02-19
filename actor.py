@@ -1,18 +1,16 @@
 import random
-from settings import actor as settings
+from config import actor as config
 
 
 class Actor:
     def __init__(self):
-        self.learningRate = settings["learningRate"]
-        self.eligibilityDecayRate = settings["eligibilityDecayRate"]
-        self.discountFactor = settings["discountFactor"]
-        self.epsilon = settings["epsilon"]
-        self.epsilonDecayRate = settings["epsilonDecayRate"]
+        self.learningRate = config["learningRate"]
+        self.eligibilityDecayRate = config["eligibilityDecayRate"]
+        self.discountFactor = config["discountFactor"]
+        self.epsilon = config["epsilon"]
+        self.epsilonDecayRate = config["epsilonDecayRate"]
         self.eligibilityMap = {}
-        self.policy = (
-            {}
-        )  # (s,a) -> z where z is how desirable the action is in the current state
+        self.policy = {}
 
     def updateEligibility(self, state, action, isCurrentState=False):
         if isCurrentState:
@@ -33,7 +31,7 @@ class Actor:
             initialStatePolicy = {action: random.uniform(0, 1) for action in legalMoves}
             policyForState = self.policy.get(state, initialStatePolicy)
             self.policy[state] = policyForState
-            return max(self.policy[state], key=self.policy[state].get)
+            return max(policyForState, key=policyForState.get)
 
     def updatePolicy(self, state, action, TDerror):
         currentValuesForState = self.policy.get(state, {})

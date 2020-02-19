@@ -6,7 +6,6 @@ class Drawer:
     def draw(self, board):
         G = nx.Graph()
         labels = {}
-        # flatten board
         nodes = [node for sublist in board for node in sublist]
         labels = [node.coordinates for node in nodes]
         G.add_nodes_from(labels)

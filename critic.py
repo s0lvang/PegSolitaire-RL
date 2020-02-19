@@ -1,12 +1,12 @@
-from settings import critic as settings
+from config import critic as config
 import random
 
 
 class Critic:
     def __init__(self):
-        self.learningRate = settings["learningRate"]
-        self.eligibilityDecayRate = settings["eligibilityDecayRate"]
-        self.discountFactor = settings["discountFactor"]
+        self.learningRate = config["learningRate"]
+        self.eligibilityDecayRate = config["eligibilityDecayRate"]
+        self.discountFactor = config["discountFactor"]
         self.eligibilityMap = {}
         self.values = {}
 
