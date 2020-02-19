@@ -1,7 +1,6 @@
 from actor import Actor
 from critic import Critic
 from neuralNetCritic import NeuralNetCritic
-from game import Game
 from utils import generateAllSAP
 from settings import game as settings
 from matplotlib import pyplot as plt
