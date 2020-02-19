@@ -1,7 +1,6 @@
 from actor import Actor
 from critic import Critic
 from neuralNetCritic import NeuralNetCritic
-from utils import generateAllSAP
 from config import game as config
 from matplotlib import pyplot as plt
 from drawer import Drawer
@@ -66,4 +65,4 @@ class Agent:
 
 
 agent = Agent()
-agent.runEpisodes(1000)
+agent.runEpisodes(300)
