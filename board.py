@@ -1,6 +1,7 @@
 from node import Node
 from drawer import Drawer
 from direction import Direction
+from config import board as config
 
 
 class Board:
@@ -71,9 +72,9 @@ class Board:
         reinforcement = 0
         if self.isInEndState():
             if pegsLeft == 1:
-                reinforcement = 100
+                reinforcement = config["reinforcementOnWin"]
             else:
-                reinforcement = -100
+                reinforcement = config["reinforcementOnLoss"]
         return self.bitString, reinforcement, pegsLeft
 
     def getNodeFromCoordinates(self, coordinates):
