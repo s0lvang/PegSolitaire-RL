@@ -10,9 +10,7 @@ class Actor:
         self.epsilon = config["epsilon"]
         self.epsilonDecayRate = config["epsilonDecayRate"]
         self.eligibilityMap = {}
-        self.policy = (
-            {}
-        )  # (s,a) -> z where z is how desirable the action is in the current state
+        self.policy = {}
 
     def updateEligibility(self, state, action, isCurrentState=False):
         if isCurrentState:

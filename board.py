@@ -22,7 +22,6 @@ class Board:
         self.updateBitString()
 
     def positionIsOnBoard(self, r, c):
-        # This needs to be generalized for boards that are triangular. The two sides are not neccesarily of equal length
         return 0 <= r and len(self.board) > r and 0 <= c and len(self.board[r]) > c
 
     def allLegalMoves(self):
