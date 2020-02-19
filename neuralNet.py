@@ -22,7 +22,7 @@ class NeuralNet(nn.Module):
         self.eligibilities.append(eligibilityMatrix)
         self.layers.append(outputLayer)
         self.model = nn.Sequential(*self.layers)
-        self.optimizer = optim.SGD(self.model.parameters(), lr=0.001)
+        self.optimizer = optim.Adam(self.model.parameters(), lr=0.01)
 
     def forward(self, state):
         x = torch.FloatTensor([int(x) for x in state])
