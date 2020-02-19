@@ -18,10 +18,10 @@ class Agent:
         self.drawer = Drawer()
 
     def runEpisodes(self, numberOfEpisodes):
-        pegsLeft = []
+        scores = []
         for episodeNumber in range(numberOfEpisodes):
-            self.runEpisode(episodeNumber, pegsLeft)
-        self.displayResults(pegsLeft)
+            self.runEpisode(episodeNumber, scores)
+        self.displayResults(scores)
 
     def initalizeEpisode(self):
         board = Board(settings["size"], settings["boardType"], settings["state"])
@@ -39,10 +39,10 @@ class Agent:
 
         return newAction
 
-    def runEpisode(self, episodeNumber, pegsLeftInEpisodes):
+    def runEpisode(self, episodeNumber, scores):
         board, state, action, SAPpairs = self.initalizeEpisode()
         while not board.isInEndState():
-            newState, reinforcement, pegsLeft = board.move(action)
+            newState, reinforcement, score = board.move(action)
             newAction = self.chooseNextAction(board, action, newState)
             self.actor.updateEligibility(newState, newAction, isCurrentState=True)
             TDError = self.critic.getTDError(state, newState, reinforcement)
@@ -58,14 +58,14 @@ class Agent:
                 self.actor.updateEligibility(s, a)
 
             state, action = newState, newAction
-        pegsLeftInEpisodes.append(pegsLeft)
+        scores.append(score)
 
-    def displayResults(self, pegsLeft):
-        a = np.convolve(pegsLeft, np.ones((100,)) / 100, mode="valid")
+    def displayResults(self, scores):
+        a = np.convolve(scores, np.ones((100,)) / 100, mode="valid")
         plt.ylim(0, max(a) + 2)
         plt.plot(a)
         plt.show()
 
 
 agent = Agent()
-agent.runEpisodes(300)
+agent.runEpisodes(1000)
