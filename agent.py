@@ -23,10 +23,6 @@ class Agent:
             self.runEpisode(episodeNumber, pegsLeft)
         self.displayResults(pegsLeft)
 
-    def takeMove(self, action, board):
-        newState, reinforcement, pegsLeft = board.move(action)
-        return newState, reinforcement, pegsLeft
-
     def initalizeEpisode(self):
         board = Board(settings["size"], settings["boardType"], settings["state"])
         state = board.bitString
@@ -46,7 +42,7 @@ class Agent:
     def runEpisode(self, episodeNumber, pegsLeftInEpisodes):
         board, state, action, SAPpairs = self.initalizeEpisode()
         while not board.isInEndState():
-            newState, reinforcement, pegsLeft = self.takeMove(action, board)
+            newState, reinforcement, pegsLeft = board.move(action)
             newAction = self.chooseNextAction(board, action, newState)
             self.actor.updateEligibility(newState, newAction, isCurrentState=True)
             TDError = self.critic.getTDError(state, newState, reinforcement)
