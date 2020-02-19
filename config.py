@@ -19,12 +19,12 @@ agent = dict(
     boardType="T",
     size=5,
     state="1111110111111111",
-    episodesToRun=500,
+    episodesToRun=1000,
     critic="table",
     # critic="ann",
     timeBetweenFrames=0.5,
-    visualize=True,
-    displayResults=True,
+    visualize=False,
+    displayResults=False,
 )
 
 # boardType="D", size=6, state="1111111111111110111111111111111111111111111"
