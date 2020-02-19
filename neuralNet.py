@@ -2,10 +2,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from config import neuralNet as config
 
 
 class NeuralNet(nn.Module):
-    def __init__(self, nodes, discountFactor=0.99):
+    def __init__(self, nodes, discountFactor=config["learningRate"]):
         super(NeuralNet, self).__init__()
         self.layers = []
         self.discountFactor = discountFactor
@@ -22,7 +23,7 @@ class NeuralNet(nn.Module):
         self.eligibilities.append(eligibilityMatrix)
         self.layers.append(outputLayer)
         self.model = nn.Sequential(*self.layers)
-        self.optimizer = optim.Adam(self.model.parameters(), lr=0.01)
+        self.optimizer = optim.Adam(self.model.parameters(), lr=config["learningRate"])
 
     def forward(self, state):
         x = torch.FloatTensor([int(x) for x in state])
