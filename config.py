@@ -18,15 +18,16 @@ neuralNet = dict(
 agent = dict(
     boardType="T",
     size=5,
-    state="1111011111111111",
-    episodesToRun=300,
-    # critic="table",
-    critic="ann",
+    state="1111110111111111",
+    episodesToRun=500,
+    critic="table",
+    # critic="ann",
     timeBetweenFrames=0.5,
     visualize=True,
     displayResults=True,
 )
 
 # boardType="D", size=6, state="1111111111111110111111111111111111111111111"
+
 
 board = dict(reinforcementOnWin=100, reinforcementOnLoss=-100)
