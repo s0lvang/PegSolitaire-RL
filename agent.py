@@ -4,7 +4,6 @@ from neuralNetCritic import NeuralNetCritic
 from config import agent as config
 from matplotlib import pyplot as plt
 from drawer import Drawer
-import numpy as np
 from board import Board
 
 
@@ -21,8 +20,10 @@ class Agent:
         scores = []
         for episodeNumber in range(numberOfEpisodes):
             history = self.runEpisode(episodeNumber, scores)
-        self.drawer.visualizeGame(history)
-        self.displayResults(scores)
+        if config["visualize"]:
+            self.drawer.visualizeGame(history)
+        if config["displayResults"]:
+            self.drawer.displayResults(scores)
 
     def runEpisode(self, episodeNumber, scores):
         board, state, action, SAPpairs = self.initalizeEpisode()
@@ -62,12 +63,6 @@ class Agent:
             newAction = self.actor.chooseAction(newState, legalMoves)
 
         return newAction
-
-    def displayResults(self, scores):
-        a = np.convolve(scores, np.ones((100,)) / 100, mode="valid")
-        plt.ylim(0, max(a) + 2)
-        plt.plot(a)
-        plt.show()
 
 
 agent = Agent()

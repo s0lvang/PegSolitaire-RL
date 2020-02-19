@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from board import Board
 from config import agent as game
+import numpy as np
 
 
 class Drawer:
@@ -52,3 +53,8 @@ class Drawer:
             self.draw(board.board)
         plt.clf()
 
+    def displayResults(self, scores):
+        a = np.convolve(scores, np.ones((100,)) / 100, mode="valid")
+        plt.ylim(0, max(a) + 2)
+        plt.plot(a)
+        plt.show()

@@ -9,9 +9,9 @@ actor = dict(
 critic = dict(learningRate=0.1, eligibilityDecayRate=0.99, discountFactor=0.99)
 
 neuralNet = dict(
+    nodes=[15, 20, 30, 5],
     eligibilityDecayRate=0.99,
-    nodes=[15, 20, 30, 5, 1],
-    learningRate=0.01,
+    learningRate=0.001,
     discountFactor=0.99,
 )
 
@@ -19,10 +19,12 @@ agent = dict(
     boardType="T",
     size=5,
     state="1111011111111111",
-    episodesToRun=500,
-    #critic="table",
+    episodesToRun=300,
+    # critic="table",
     critic="ann",
-    timeBetweenFrames = 3
+    timeBetweenFrames=0.5,
+    visualize=True,
+    displayResults=True,
 )
 
 # boardType="D", size=6, state="1111111111111110111111111111111111111111111"
