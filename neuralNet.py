@@ -13,7 +13,7 @@ class NeuralNet(nn.Module):
         for i in range(len(nodes) - 1):
             layer = nn.Linear(nodes[i], nodes[i + 1])
             reluLayer = nn.ReLU()
-            eligibilityMatrix = torch.Tensor(nodes[i+1], nodes[i])
+            eligibilityMatrix = torch.Tensor(nodes[i + 1], nodes[i])
             self.layers.append(layer)
             self.layers.append(reluLayer)
             self.eligibilities.append(eligibilityMatrix)
@@ -37,18 +37,14 @@ class NeuralNet(nn.Module):
                 - self.forward(state)
             )
 
-    def train(self, state, newState, reinforcement):
+    def train(self, state, TDError):
         self.optimizer.zero_grad()
         outputs = self.forward(state)
-        with torch.no_grad():
-            TDerror = (
-                reinforcement
-                + self.discountFactor * self.forward(newState)
-                - self.forward(state)
-            )
         outputs.backward()
-        for i, layer in enumerate(list(filter(lambda layer: type(layer) == type(self.model[0]), self.model))):
+        for i, layer in enumerate(
+            list(filter(lambda layer: type(layer) == type(self.model[0]), self.model))
+        ):
             self.eligibilities[i] += layer.weight.grad
-            layer.weight.grad = -TDerror * layer.weight.grad
+            layer.weight.grad = -TDError * layer.weight.grad
         self.optimizer.step()
 

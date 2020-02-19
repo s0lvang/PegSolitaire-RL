@@ -56,7 +56,7 @@ class Agent:
                 SAPpairs.append((state, action))
 
             for (s, a) in SAPpairs:
-                self.critic.updateValueFunction(s, newState, reinforcement)
+                self.critic.updateValueFunction(s, TDError)
                 self.critic.updateEligibility(s)
                 self.actor.updatePolicy(s, a, TDError)
                 self.actor.updateEligibility(s, a)

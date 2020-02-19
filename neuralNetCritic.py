@@ -16,5 +16,5 @@ class NeuralNetCritic:
     def updateEligibility(self, state, isCurrentState=False):
         return True
 
-    def updateValueFunction(self, state, newState, reinforcement):
-        self.net.train(state, newState, reinforcement)
+    def updateValueFunction(self, state, TDError):
+        self.net.train(state, TDError)
