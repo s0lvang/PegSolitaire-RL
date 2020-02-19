@@ -1,14 +1,14 @@
 import random
-from settings import actor as settings
+from config import actor as config
 
 
 class Actor:
     def __init__(self):
-        self.learningRate = settings["learningRate"]
-        self.eligibilityDecayRate = settings["eligibilityDecayRate"]
-        self.discountFactor = settings["discountFactor"]
-        self.epsilon = settings["epsilon"]
-        self.epsilonDecayRate = settings["epsilonDecayRate"]
+        self.learningRate = config["learningRate"]
+        self.eligibilityDecayRate = config["eligibilityDecayRate"]
+        self.discountFactor = config["discountFactor"]
+        self.epsilon = config["epsilon"]
+        self.epsilonDecayRate = config["epsilonDecayRate"]
         self.eligibilityMap = {}
         self.policy = (
             {}

@@ -2,7 +2,7 @@ from actor import Actor
 from critic import Critic
 from neuralNetCritic import NeuralNetCritic
 from utils import generateAllSAP
-from settings import game as settings
+from config import game as config
 from matplotlib import pyplot as plt
 from drawer import Drawer
 import numpy as np
@@ -43,7 +43,7 @@ class Agent:
         scores.append(score)
 
     def initalizeEpisode(self):
-        board = Board(settings["size"], settings["boardType"], settings["state"])
+        board = Board(config["size"], config["boardType"], config["state"])
         state = board.bitString
         action = None
         SAPpairs = []
