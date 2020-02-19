@@ -1,5 +1,4 @@
 from node import Node
-from drawer import Drawer
 from direction import Direction
 from config import board as config
 

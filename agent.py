@@ -20,7 +20,8 @@ class Agent:
     def runEpisodes(self, numberOfEpisodes):
         scores = []
         for episodeNumber in range(numberOfEpisodes):
-            self.runEpisode(episodeNumber, scores)
+            history = self.runEpisode(episodeNumber, scores)
+        self.drawer.visualizeGame(history)
         self.displayResults(scores)
 
     def runEpisode(self, episodeNumber, scores):
@@ -43,6 +44,7 @@ class Agent:
 
             state, action = newState, newAction
         scores.append(score)
+        return SAPpairs
 
     def initalizeEpisode(self):
         board = Board(config["size"], config["boardType"], config["state"])
