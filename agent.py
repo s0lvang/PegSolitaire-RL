@@ -44,6 +44,7 @@ class Agent:
 
             state, action = newState, newAction
         scores.append(score)
+        SAPpairs.append((state, action))
         return SAPpairs
 
     def initalizeEpisode(self):

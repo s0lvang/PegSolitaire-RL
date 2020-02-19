@@ -20,8 +20,9 @@ agent = dict(
     size=5,
     state="1111011111111111",
     episodesToRun=500,
-    critic="table",
-    # critic="ann",
+    #critic="table",
+    critic="ann",
+    timeBetweenFrames = 3
 )
 
 # boardType="D", size=6, state="1111111111111110111111111111111111111111111"
