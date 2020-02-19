@@ -12,7 +12,6 @@ from board import Board
 
 class Agent:
     def __init__(self):
-        # states, SAP = generateAllSAP(settings["size"], settings["boardType"])
         self.actor = Actor()
         self.critic = NeuralNetCritic()
         self.drawer = Drawer()
@@ -22,22 +21,6 @@ class Agent:
         for episodeNumber in range(numberOfEpisodes):
             self.runEpisode(episodeNumber, scores)
         self.displayResults(scores)
-
-    def initalizeEpisode(self):
-        board = Board(settings["size"], settings["boardType"], settings["state"])
-        state = board.bitString
-        action = None
-        SAPpairs = []
-        return board, state, action, SAPpairs
-
-    def chooseNextAction(self, board, action, newState):
-        legalMoves = board.allLegalMoves()
-        if board.isInEndState():
-            newAction = action
-        else:
-            newAction = self.actor.chooseAction(newState, legalMoves)
-
-        return newAction
 
     def runEpisode(self, episodeNumber, scores):
         board, state, action, SAPpairs = self.initalizeEpisode()
@@ -59,6 +42,22 @@ class Agent:
 
             state, action = newState, newAction
         scores.append(score)
+
+    def initalizeEpisode(self):
+        board = Board(settings["size"], settings["boardType"], settings["state"])
+        state = board.bitString
+        action = None
+        SAPpairs = []
+        return board, state, action, SAPpairs
+
+    def chooseNextAction(self, board, action, newState):
+        legalMoves = board.allLegalMoves()
+        if board.isInEndState():
+            newAction = action
+        else:
+            newAction = self.actor.chooseAction(newState, legalMoves)
+
+        return newAction
 
     def displayResults(self, scores):
         a = np.convolve(scores, np.ones((100,)) / 100, mode="valid")
