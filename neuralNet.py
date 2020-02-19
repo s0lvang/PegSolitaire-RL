@@ -39,7 +39,6 @@ class NeuralNet(nn.Module):
 
     def train(self, state, newState, reinforcement):
         self.optimizer.zero_grad()
-        # forward + backward + optimize
         outputs = self.forward(state)
         with torch.no_grad():
             TDerror = (
@@ -47,9 +46,7 @@ class NeuralNet(nn.Module):
                 + self.discountFactor * self.forward(newState)
                 - self.forward(state)
             )
-        #loss = F.mse_loss(self.forward(state), TDerror)
-        # loss = abs(TDerror)
-        outputs.backward()  # Aner ikke hvorfor jeg har retain graph men det får da være
+        outputs.backward()
         for i, layer in enumerate(list(filter(lambda layer: type(layer) == type(self.model[0]), self.model))):
             self.eligibilities[i] += layer.weight.grad
             layer.weight.grad = -TDerror * layer.weight.grad
