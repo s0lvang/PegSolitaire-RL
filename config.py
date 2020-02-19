@@ -15,7 +15,14 @@ neuralNet = dict(
     discountFactor=0.99,
 )
 
-agent = dict(boardType="T", size=5, state="1111011111111111", episodesToRun=500)
+agent = dict(
+    boardType="T",
+    size=5,
+    state="1111011111111111",
+    episodesToRun=500,
+    critic="table",
+    # critic="ann",
+)
 
 # boardType="D", size=6, state="1111111111111110111111111111111111111111111"
 

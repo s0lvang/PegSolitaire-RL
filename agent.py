@@ -1,5 +1,5 @@
 from actor import Actor
-from critic import Critic
+from critic import Critic as TableCritic
 from neuralNetCritic import NeuralNetCritic
 from config import agent as config
 from matplotlib import pyplot as plt
@@ -10,8 +10,11 @@ from board import Board
 
 class Agent:
     def __init__(self):
+        if config["critic"] == "ann":
+            self.critic = NeuralNetCritic()
+        elif config["critic"] == "table":
+            self.critic = TableCritic()
         self.actor = Actor()
-        self.critic = NeuralNetCritic()
         self.drawer = Drawer()
 
     def runEpisodes(self, numberOfEpisodes):
