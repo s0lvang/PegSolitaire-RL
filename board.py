@@ -70,10 +70,11 @@ class Board:
         self.updateBitString()
         pegsLeft = self.bitString.count("1")
         reinforcement = 0
-        if pegsLeft == 1:
-            reinforcement = 100
-        else:
-            reinforcement = -100
+        if self.isInEndState():
+            if pegsLeft == 1:
+                reinforcement = 100
+            else:
+                reinforcement = -100
         return self.bitString, reinforcement, pegsLeft
 
     def getNodeFromCoordinates(self, coordinates):
