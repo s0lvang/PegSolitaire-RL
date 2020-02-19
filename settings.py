@@ -3,7 +3,7 @@ actor = dict(
     eligibilityDecayRate=0.99,
     discountFactor=0.99,
     epsilon=1,
-    epsilonDecayRate=0.9,
+    epsilonDecayRate=0.99,
 )
 
 critic = dict(learningRate=0.1, eligibilityDecayRate=0.99, discountFactor=0.99)

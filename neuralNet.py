@@ -17,7 +17,7 @@ class NeuralNet(nn.Module):
         outputLayer = nn.Linear(nodes[-1], 1)
         self.layers.append(outputLayer)
         self.model = nn.Sequential(*self.layers)
-        self.optimizer = optim.SGD(self.model.parameters(), lr=0.001)
+        self.optimizer = optim.SGD(self.model.parameters(), lr=0.0000001)
 
     def forward(self, state):
         x = torch.FloatTensor([int(x) for x in state])
