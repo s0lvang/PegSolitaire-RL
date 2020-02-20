@@ -32,7 +32,7 @@ agent = dict(
 # size=5,
 # state="111111011111111",
 
-# D 4 table=500e 16 nodes
+# D 4 ann=300e table=500e 16 nodes
 # boardType="D",
 # size=4,
 # state="1111110111111111",
