@@ -17,7 +17,7 @@ class Actor:
             self.eligibilityMap.get(state, {})[action] = 1
         else:
             eligibilityOfState = self.eligibilityMap.get(state, {}).get(
-                action, random.uniform(0, 1)
+                action, 1
             )
             self.eligibilityMap.get(state, {})[action] = (
                 self.discountFactor * self.eligibilityDecayRate * eligibilityOfState
@@ -37,7 +37,7 @@ class Actor:
         currentValuesForState = self.policy.get(state, {})
         valueForAction = currentValuesForState.get(action, random.uniform(0, 1))
         eligibilityForSAP = self.eligibilityMap.get(state, {}).get(
-            action, random.uniform(0, 1)
+            action, 1
         )
         newValueForAction = (
             valueForAction + self.learningRate * TDerror * eligibilityForSAP

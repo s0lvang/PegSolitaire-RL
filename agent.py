@@ -24,6 +24,7 @@ class Agent:
             self.drawer.visualizeGame(history)
         if config["displayResults"]:
             self.drawer.displayResults(scores)
+        return scores[-1]
 
     def runEpisode(self, episodeNumber, scores):
         board, state, action, SAPpairs = self.initalizeEpisode()
@@ -67,3 +68,7 @@ class Agent:
 
 agent = Agent()
 agent.runEpisodes(config["episodesToRun"])
+
+# for i in range(20):
+#     agent = Agent()
+#     print(agent.runEpisodes(config["episodesToRun"]))
