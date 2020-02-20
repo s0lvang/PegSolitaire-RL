@@ -69,7 +69,6 @@ class Agent:
 agent = Agent()
 agent.runEpisodes(config["episodesToRun"])
 
-for i in range(20):
-    agent = Agent()
-    print(agent.runEpisodes(config["episodesToRun"]))
-    
+# for i in range(20):
+#     agent = Agent()
+#     print(agent.runEpisodes(config["episodesToRun"]))
